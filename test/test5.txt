@@ -1,0 +1,3 @@
+hacer 3 veces mano derecha arriba
+pie izquierdo costado
+fin

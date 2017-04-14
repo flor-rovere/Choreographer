@@ -1,0 +1,5 @@
+mano derecha arriba
+pie izquierdo costado
+pass derecha
+mano izquierda costado
+fin

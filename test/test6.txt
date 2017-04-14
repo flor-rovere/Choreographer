@@ -1,0 +1,8 @@
+pie izquierdo costado
+mano derecha arriba, mano izquierda costado
+hacer 3 veces pie derecho costado
+cabeza derecha
+paso derecho
+mano izquierda arriba, mano derecha costado
+hacer 2 veces paso izquierdo
+fin

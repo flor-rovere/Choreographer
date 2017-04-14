@@ -1,0 +1,4 @@
+cabeza derecha
+cabeza izquierda
+cabeza medio
+fin

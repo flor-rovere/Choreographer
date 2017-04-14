@@ -1,0 +1,2 @@
+hacer 14 veces paso derecho
+fin

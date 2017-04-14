@@ -1,0 +1,4 @@
+mano derecha arriba,mano izquierda arriba, pie izquierdo costado
+pie izquierdo abajo
+mano derecha costado,   pie derecho costado
+fin

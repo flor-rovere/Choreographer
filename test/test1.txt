@@ -1,0 +1,11 @@
+mano derecha arriba
+pie izquierdo costado
+paso derecho
+mano izquierda costado
+pie derecho costado
+mano derecha costado
+pie izquierdo abajo
+cabeza derecha
+cabeza izquierda
+cabeza medio
+fin
