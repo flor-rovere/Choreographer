@@ -3,10 +3,10 @@ module ParserMain where
 import Text.ParserCombinators.Parsec
 import Data.Char
 
-data R = PanelSize Float Float
-       | Option Int 
-       | FrameRate Float
-       | File String
+data Parameters = PanelSize Float Float
+                | Option Int 
+                | FrameRate Float
+                | File String
 
 data Err = All_Right | Problem
 
@@ -17,8 +17,17 @@ data R_Param = Param
     , panelSize  :: (Float,Float)
     }
 
+--getting_right_parameters genera el record con la información ingresada
+getting_right_parameters :: [String] -> R_Param
+getting_right_parameters xs = let ys    = recognize_parameters xs
+                                  zs    = recognize_mistakes ys
+                                  param = Param{options=0,frameRates=1,file="",panelSize=(400,400)}
+                               in case zs of
+                                      Left Problem -> param
+                                      _            -> eval ys param
+
 --recognize_parameters parsea los argumentos ingresados al ejecutar el main
-recognize_parameters :: [String] -> [Maybe R]
+recognize_parameters :: [String] -> [Maybe Parameters]
 recognize_parameters []     = []
 recognize_parameters (x:xs) = case (parse recognizePar "" x) of
     Right elem -> (Just elem) : (recognize_parameters xs)
@@ -39,14 +48,14 @@ recognizePar = try (do x <- float
                                             return (File x)))))
 
 --recognize_mistakes verifica si hay errores en los argumentos ingresados
-recognize_mistakes :: [Maybe R] -> Either Err Err
+recognize_mistakes :: [Maybe Parameters] -> Either Err Err
 recognize_mistakes []     = Right All_Right
 recognize_mistakes (x:xs) = case x of
     Nothing -> Left Problem
     _       -> recognize_mistakes xs
 
 --eval genera actualiza un record con los parámetros dados
-eval :: [Maybe R] -> R_Param -> R_Param
+eval :: [Maybe Parameters] -> R_Param -> R_Param
 eval [] param            = param
 eval ((Just x):xs) param = case x of
     Option i        -> let param' = param {options=i}
@@ -57,14 +66,6 @@ eval ((Just x):xs) param = case x of
                         in eval xs param'
     PanelSize i1 i2 -> let param' = param {panelSize=(i1,i2)}
                         in eval xs param'
-
-getting_right_parameters :: [String] -> R_Param 
-getting_right_parameters xs = let ys    = recognize_parameters xs
-                                  zs    = recognize_mistakes ys
-                                  param = Param{options=0,frameRates=1,file="",panelSize=(400,400)}
-                               in case zs of
-                                      Left Problem -> param
-                                      _            -> eval ys param
 
 --float se tomó prestado de otra persona para parsear un float
 float = fmap rd $ (++) <$> (many1 digit) <*> decimal

@@ -139,6 +139,7 @@ update (center, start_point, zs, (x:xs)) = case x of
     ((EndMany n v i):ys)   -> updateMany center start_point zs (x:xs)
     _                      -> return (center, start_point, snd (runState (States.update x) zs), xs)
 
+--updateMany actualiza los parámetros ingresados con la opción "hacer n veces m"
 updateMany :: (Float, Float) -> (Float, Float) -> ActualPosition -> ListSt -> Pio ((Float, Float), (Float, Float), ActualPosition, ListSt)
 updateMany center start_point zs (st@((StartMany n v i):ys):xs) = case n of
     0 -> return (center, start_point, zs, ys:xs)
@@ -160,6 +161,7 @@ updateMany center start_point zs (st@((EndMany n v i):ys):xs) = case v of
     _         -> let zs' = snd (runState (States.update [Step v Down]) zs)
                   in return (center, start_point, zs',((StartMany (n-1) v i):ys):xs)
 
+--updatePace actualiza los parámetros ingresados con la opción "paso m"
 updatePace :: (Float, Float) -> (Float, Float) -> ActualPosition -> ListSt -> Pio ((Float, Float), (Float, Float), ActualPosition, ListSt)
 updatePace center start_point zs (((Step StartPace x):ys):xs) = case x of
     BRight -> let zs' = snd (runState (States.update [Step RightLeg Side]) zs)
@@ -180,6 +182,7 @@ updatePace center start_point zs (((Step EndPace x):ys):xs) = case x of
                in return (center, dim, zs', xs)
     _      -> liftIO (die "Error: Se ingresó un movimiento no válido")
 
+--updateManyPace actualiza los parámetros ingresados con la opción "hacer n veces paso m"
 updateManyPace :: (Float, Float) -> (Float, Float) -> ActualPosition -> ListSt -> Pio ((Float, Float), (Float, Float), ActualPosition, ListSt)
 updateManyPace center start_point zs (((StartMany n v i):ys):xs) = do
     (center', start_point', zs', ((Step v' i'):ys'):xs') <- updatePace center start_point zs (((Step v i):ys):xs)

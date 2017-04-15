@@ -27,7 +27,7 @@ parserSt (x:xs) = let y  = splits x
                       ys = parserSt xs
                    in (y:ys)
 
---splits divide un comando en el cual hubo varios pasos en una lista de (tal vez) pasos
+--splits divide un comando en el cual hubo (tal vez) varios pasos en una lista de pasos
 splits :: String -> [Maybe States]
 splits xs = let ys = splitOn "," xs
                 zs = map (f ' ') ys
