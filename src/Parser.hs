@@ -49,7 +49,7 @@ recognizeSt = try (do string "hacer"
                       space
                       x <- (many1 digit)
                       space
-                      string "veces"
+                      (try (do string "veces") <|> (try (do string "vez")))
                       space
                       Step y z <- recognizeBP
                       return (StartMany (read x :: Int) y z))
